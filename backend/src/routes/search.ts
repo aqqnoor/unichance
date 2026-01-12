@@ -28,7 +28,10 @@ router.get('/', async (req, res) => {
       ...req.query,
       min_tuition: req.query.min_tuition ? Number(req.query.min_tuition) : undefined,
       max_tuition: req.query.max_tuition ? Number(req.query.max_tuition) : undefined,
-      has_scholarship: req.query.has_scholarship === 'true',
+      has_scholarship:
+        req.query.has_scholarship === undefined
+          ? undefined
+          : req.query.has_scholarship === 'true',
       min_acceptance_rate: req.query.min_acceptance_rate ? Number(req.query.min_acceptance_rate) : undefined,
       max_acceptance_rate: req.query.max_acceptance_rate ? Number(req.query.max_acceptance_rate) : undefined,
       limit: req.query.limit ? Number(req.query.limit) : 20,
@@ -58,26 +61,29 @@ router.get('/', async (req, res) => {
         req.min_gpa,
         req.min_ielts,
         req.min_toefl,
-        COALESCE((
-          SELECT COUNT(*) > 0 
-          FROM scholarships s 
-          WHERE s.program_id = p.id OR s.university_id = u.id
-        ), false) as has_scholarship,
-        COALESCE((
-          SELECT MIN(d.deadline_date)
-          FROM deadlines d
-          WHERE d.program_id = p.id
-        ), NULL) as next_deadline,
-        COALESCE((
-          SELECT AVG(ad.acceptance_rate)
-          FROM admission_stats ad
-          WHERE ad.program_id = p.id
-          AND ad.year >= EXTRACT(YEAR FROM CURRENT_DATE) - 3
-        ), NULL) as avg_acceptance_rate
+        sch.has_scholarship,
+        dl.next_deadline,
+        acc.avg_acceptance_rate
       FROM programs p
       INNER JOIN universities u ON p.university_id = u.id
       INNER JOIN countries c ON u.country_id = c.id
       LEFT JOIN requirements req ON req.program_id = p.id
+      LEFT JOIN LATERAL (
+        SELECT COUNT(*) > 0 AS has_scholarship
+        FROM scholarships s
+        WHERE s.program_id = p.id OR s.university_id = u.id
+      ) sch ON true
+      LEFT JOIN LATERAL (
+        SELECT MIN(d.deadline_date) AS next_deadline
+        FROM deadlines d
+        WHERE d.program_id = p.id
+      ) dl ON true
+      LEFT JOIN LATERAL (
+        SELECT AVG(ad.acceptance_rate) AS avg_acceptance_rate
+        FROM admission_stats ad
+        WHERE ad.program_id = p.id
+          AND ad.year >= EXTRACT(YEAR FROM CURRENT_DATE) - 3
+      ) acc ON true
       WHERE 1=1
     `;
 
@@ -147,19 +153,24 @@ router.get('/', async (req, res) => {
     }
 
     if (params.has_scholarship) {
-      query += ` AND EXISTS (
-        SELECT 1 FROM scholarships s 
-        WHERE (s.program_id = p.id OR s.university_id = u.id)
-      )`;
+      query += ` AND sch.has_scholarship = true`;
     }
 
     if (params.deadline_before) {
-      query += ` AND EXISTS (
-        SELECT 1 FROM deadlines d
-        WHERE d.program_id = p.id
-        AND d.deadline_date <= $${paramIndex}
-      )`;
+      query += ` AND dl.next_deadline <= $${paramIndex}`;
       queryParams.push(params.deadline_before);
+      paramIndex++;
+    }
+
+    if (params.min_acceptance_rate !== undefined) {
+      query += ` AND acc.avg_acceptance_rate >= $${paramIndex}`;
+      queryParams.push(params.min_acceptance_rate);
+      paramIndex++;
+    }
+
+    if (params.max_acceptance_rate !== undefined) {
+      query += ` AND acc.avg_acceptance_rate <= $${paramIndex}`;
+      queryParams.push(params.max_acceptance_rate);
       paramIndex++;
     }
 
@@ -176,6 +187,17 @@ router.get('/', async (req, res) => {
       FROM programs p
       INNER JOIN universities u ON p.university_id = u.id
       INNER JOIN countries c ON u.country_id = c.id
+      LEFT JOIN LATERAL (
+        SELECT MIN(d.deadline_date) AS next_deadline
+        FROM deadlines d
+        WHERE d.program_id = p.id
+      ) dl ON true
+      LEFT JOIN LATERAL (
+        SELECT AVG(ad.acceptance_rate) AS avg_acceptance_rate
+        FROM admission_stats ad
+        WHERE ad.program_id = p.id
+          AND ad.year >= EXTRACT(YEAR FROM CURRENT_DATE) - 3
+      ) acc ON true
       WHERE 1=1
     `;
     const countParams: any[] = [];
@@ -247,6 +269,24 @@ router.get('/', async (req, res) => {
         SELECT 1 FROM scholarships s 
         WHERE (s.program_id = p.id OR s.university_id = u.id)
       )`;
+    }
+
+    if (params.deadline_before) {
+      countQuery += ` AND dl.next_deadline <= $${countParamIndex}`;
+      countParams.push(params.deadline_before);
+      countParamIndex++;
+    }
+
+    if (params.min_acceptance_rate !== undefined) {
+      countQuery += ` AND acc.avg_acceptance_rate >= $${countParamIndex}`;
+      countParams.push(params.min_acceptance_rate);
+      countParamIndex++;
+    }
+
+    if (params.max_acceptance_rate !== undefined) {
+      countQuery += ` AND acc.avg_acceptance_rate <= $${countParamIndex}`;
+      countParams.push(params.max_acceptance_rate);
+      countParamIndex++;
     }
 
     const countResult = await pool.query(countQuery, countParams);

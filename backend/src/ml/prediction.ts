@@ -142,8 +142,8 @@ export async function calculateAdmissionChance(input: PredictionInput): Promise<
           recommendations.push(`Улучшите TOEFL до минимум ${program.min_toefl}`);
         }
       } else {
-        factors.push({ name: 'TOEFL', impact: -0.15, description: 'Университет не принимает TOEFL' });
-        recommendations.push(`Для этого университета требуется IELTS (минимум ${program.min_ielts})`);
+        factors.push({ name: 'TOEFL', impact: 0, description: 'Нет данных по требованиям TOEFL — проверьте сайт университета' });
+        recommendations.push('Проверьте требования TOEFL на сайте программы; при отсутствии данных рекомендуем IELTS');
       }
     }
   } else {
@@ -203,12 +203,6 @@ export async function calculateAdmissionChance(input: PredictionInput): Promise<
     factors.push({ name: 'University Ranking', impact: rankingImpact, description: `Высокий рейтинг университета (QS: ${program.qs_ranking})` });
   }
 
-  // Historical acceptance rate adjustment
-  let baseProbability = 0.5;
-  if (program.avg_acceptance_rate) {
-    baseProbability = program.avg_acceptance_rate / 100.0;
-  }
-
   // Logistic regression-like calculation
   // Using weighted sum of features
   let logit = 0;
@@ -222,7 +216,8 @@ export async function calculateAdmissionChance(input: PredictionInput): Promise<
   
   // Adjust based on historical acceptance rate
   if (program.avg_acceptance_rate) {
-    logit += Math.log(program.avg_acceptance_rate / (100 - program.avg_acceptance_rate));
+    const r = Math.max(1, Math.min(99, program.avg_acceptance_rate));
+    logit += Math.log(r / (100 - r));
   }
 
   // Convert to probability using sigmoid
