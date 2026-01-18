@@ -1,0 +1,37 @@
+university_name,title,degree_level,field,language,tuition_amount,tuition_currency,has_scholarship,scholarship_type,scholarship_percent_min,scholarship_percent_max,description,data_updated_at
+University of Stuttgart,Computer Science,bachelor,CS,EN,1500,EUR,true,merit,10,50,,2026-01-01T00:00:00Z
+University of Michigan,Data Science,master,Data,EN,55000,USD,true,need-based,5,30,,2026-01-01T00:00:00Z
+Technical University of Munich,Mechanical Engineering,bachelor,Engineering,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+RWTH Aachen University,Civil Engineering,master,Engineering,DE,0,EUR,true,merit,15,40,,2026-01-01T00:00:00Z
+University of Freiburg,Biology,bachelor,Science,EN,1500,EUR,true,need-based,10,25,,2026-01-01T00:00:00Z
+Karlsruhe Institute of Technology,Electrical Engineering,master,Engineering,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+Ludwig Maximilian University of Munich,History,bachelor,Arts,DE,0,EUR,true,merit,5,20,,2026-01-01T00:00:00Z
+Heidelberg University,Medicine,master,Health,EN,3000,EUR,true,need-based,10,30,,2026-01-01T00:00:00Z
+Humboldt University of Berlin,Law,bachelor,Law,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+Free University of Berlin,Political Science,master,Social Sciences,EN,2000,EUR,true,merit,10,35,,2026-01-01T00:00:00Z
+Technical University of Berlin,Architecture,bachelor,Design,DE,0,EUR,true,need-based,5,15,,2026-01-01T00:00:00Z
+University of Tübingen,Philosophy,master,Humanities,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Bonn,Economics,bachelor,Economics,EN,1500,EUR,true,merit,10,30,,2026-01-01T00:00:00Z
+University of Hamburg,Psychology,master,Science,DE,0,EUR,true,need-based,5,20,,2026-01-01T00:00:00Z
+Goethe University Frankfurt,Finance,bachelor,Business,EN,2000,EUR,true,merit,15,40,,2026-01-01T00:00:00Z
+University of Cologne,Marketing,master,Business,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Leipzig,English Literature,bachelor,Arts,EN,1500,EUR,true,need-based,10,25,,2026-01-01T00:00:00Z
+University of Würzburg,Chemistry,master,Science,DE,0,EUR,true,merit,10,30,,2026-01-01T00:00:00Z
+University of Münster,Sociology,bachelor,Social Sciences,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Erlangen-Nuremberg,Physics,master,Science,EN,2500,EUR,true,need-based,15,35,,2026-01-01T00:00:00Z
+University of Göttingen,Mathematics,bachelor,Science,DE,0,EUR,true,merit,5,20,,2026-01-01T00:00:00Z
+University of Duisburg-Essen,Business Administration,master,Business,EN,3000,EUR,true,need-based,10,30,,2026-01-01T00:00:00Z
+University of Potsdam,Environmental Science,bachelor,Science,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Kassel,Social Work,master,Social Sciences,DE,0,EUR,true,merit,5,15,,2026-01-01T00:00:00Z
+University of Siegen,Media Studies,bachelor,Arts,EN,1500,EUR,true,need-based,10,25,,2026-01-01T00:00:00Z
+University of Hildesheim,Education,master,Education,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Applied Sciences Würzburg-Schweinfurt,Information Technology,bachelor,CS,DE,0,EUR,true,merit,10,30,,2026-01-01T00:00Z
+University of Applied Sciences Augsburg,Industrial Design,master,Design,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Applied Sciences Darmstadt,Mechanical Engineering,bachelor,Engineering,DE,0,EUR,true,need-based,5,20,,2026-01-01T00:00:00Z
+University of Applied Sciences Kaiserslautern,Civil Engineering,master,Engineering,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Applied Sciences Lübeck,Health Sciences,bachelor,Health,DE,0,EUR,true,merit,10,25,,2026-01-01T00:00:00Z
+University of Applied Sciences Offenburg,Business Informatics,master,CS,EN,2000,EUR,true,need-based,15,35,,2026-01-01T00:00:00Z
+University of Applied Sciences Ravensburg-Weingarten,Electrical Engineering,bachelor,Engineering,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
+University of Applied Sciences Stralsund,Maritime Studies,master,Science,EN,1500,EUR,true,merit,10,30,,2026-01-01T00:00:00Z
+University of Applied Sciences Trier,Tourism Management,bachelor,Business,DE,0,EUR,true,need-based,5,15,,2026-01-01T00:00:00Z
+University of Applied Sciences Ulm,Computer Engineering,master,CS,DE,0,EUR,false,,0,0,,2026-01-01T00:00:00Z
