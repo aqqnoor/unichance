@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: unichance_db
+    environment:
+      POSTGRES_USER: unichance
+      POSTGRES_PASSWORD: unichance
+      POSTGRES_DB: unichance
+    ports:
+      - "5432:5432"
+    volumes:
+      - unichance_pg:/var/lib/postgresql/data
+
+volumes:
+  unichance_pg:

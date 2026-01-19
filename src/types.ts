@@ -72,3 +72,27 @@ export interface AdmissionChance {
 }
 
 export type Region = 'USA' | 'Europe' | 'UK' | 'Canada' | 'Australia' | 'Other';
+
+export interface Program {
+  id: string;
+  title: string;
+
+  degree_level: 'bachelor' | 'master';
+  field: string;
+  language: string;
+
+  tuition_amount: number;
+  tuition_currency: 'EUR' | 'USD';
+
+  has_scholarship: boolean;
+  scholarship_type: string | null;
+  scholarship_percent_min: number;
+  scholarship_percent_max: number;
+
+  university_name: string;
+  country_code: string;
+  city: string;
+
+  qs_rank: number;
+  the_rank: number;
+}
