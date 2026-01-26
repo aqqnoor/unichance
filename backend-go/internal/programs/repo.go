@@ -105,7 +105,8 @@ func (r Repo) List(ctx context.Context, p ListParams) (items []ProgramCard, tota
       programs.id, programs.title, programs.degree_level::text, programs.field, programs.language,
       programs.tuition_amount, programs.tuition_currency::text,
       programs.has_scholarship, programs.scholarship_type, programs.scholarship_percent_min, programs.scholarship_percent_max,
-      universities.name, universities.country_code, universities.city, universities.qs_rank, universities.the_rank
+      universities.name, universities.country_code, universities.city, universities.qs_rank, universities.the_rank, 
+      programs.university_id
     FROM programs
     JOIN universities ON universities.id = programs.university_id
     WHERE ` + whereSQL + `
@@ -122,7 +123,7 @@ func (r Repo) List(ctx context.Context, p ListParams) (items []ProgramCard, tota
       &it.ID, &it.Title, &it.DegreeLevel, &it.Field, &it.Language,
       &it.TuitionAmount, &it.TuitionCurrency,
       &it.HasScholarship, &it.ScholarshipType, &it.ScholarshipPercentMin, &it.ScholarshipPercentMax,
-      &it.UniversityName, &it.CountryCode, &it.City, &it.QSRank, &it.THERank,
+      &it.UniversityName, &it.CountryCode, &it.City, &it.QSRank, &it.THERank, &it.UniversityID,
     )
     if err != nil { return nil, 0, err }
     items = append(items, it)

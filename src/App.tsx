@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Results from './pages/Results';
 import Profile from './pages/Profile';
 import Search from './pages/Search';
+import University from "./pages/University";
+
 
 import Layout from './components/Layout';
 
@@ -29,6 +31,7 @@ function App() {
           element={<Profile profile={profile} setProfile={setProfile} />}
         />
         <Route path="/search" element={<Search />} />
+        <Route path="/universities/:id" element={<University />} />
 
       </Route>
     </Routes>

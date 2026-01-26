@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { apiGet } from "../lib/api";
+import { Link } from "react-router-dom";
 
 type ProgramDTO = {
   id: string;
+  university_id: string; 
   title: string;
   degree_level: string; // "bachelor" | "master"
   field: string;
@@ -18,6 +20,7 @@ type ProgramDTO = {
   city?: string;
   qs_rank?: number;
   the_rank?: number;
+  
 };
 
 interface SearchFilters {
@@ -366,9 +369,10 @@ function ProgramCard({ result }: { result: ProgramDTO }) {
           </h3>
 
           <p className="text-gray-600 mb-2">
-            <span className="text-primary-600 font-medium">
-              {result.university_name}
-            </span>
+            
+              <Link to={`/universities/${result.university_id}`} className="text-primary-600 font-medium hover:underline">
+                {result.university_name}
+              </Link>
             {" • "}
             {(result.city ? `${result.city}, ` : "")}
             {result.country_code}
@@ -402,6 +406,8 @@ function ProgramCard({ result }: { result: ProgramDTO }) {
             <p className="text-sm text-gray-600">QS Ranking: #{result.qs_rank}</p>
           )}
         </div>
+
+        
 
         
       </div>

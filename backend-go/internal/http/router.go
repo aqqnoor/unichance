@@ -1,6 +1,8 @@
 package http
 
 import (
+	"unichance-backend-go/internal/universities"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoMw "github.com/labstack/echo/v4/middleware"
@@ -12,10 +14,11 @@ import (
 )
 
 type Deps struct {
-	AuthHandler     auth.Handler
-	ProgramsHandler programs.Handler
-	ProfileHandler  profile.Handler
-	JwtSecret       string
+	AuthHandler         auth.Handler
+	ProgramsHandler     programs.Handler
+	ProfileHandler      profile.Handler
+	UniversitiesHandler universities.Handler
+	JwtSecret           string
 }
 
 func NewRouter(d Deps) *echo.Echo {
@@ -51,6 +54,9 @@ func NewRouter(d Deps) *echo.Echo {
 	e.GET("/profile/me", d.ProfileHandler.GetMe, appMw.RequireAuth(d.JwtSecret))
 	e.POST("/profile/me", d.ProfileHandler.UpsertMe, appMw.RequireAuth(d.JwtSecret))
 	e.POST("/score", d.ProfileHandler.ScoreProgram, appMw.RequireAuth(d.JwtSecret))
+
+	// universities (public)
+	e.GET("/universities/:id", d.UniversitiesHandler.GetByID)
 
 	return e
 }
